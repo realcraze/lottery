@@ -258,6 +258,8 @@ function bindEvent() {
         currentPrize = basicData.prizes[currentPrizeIndex];
 
         resetPrize(currentPrizeIndex);
+        btns.lottery.innerHTML = "开始转动";
+        btns.lottery.id = "lottery";
         reset();
         switchScreen("enter");
         break;
@@ -324,11 +326,15 @@ function switchScreen(type) {
     case "enter":
       btns.enter.classList.remove("none");
       btns.lotteryBar.classList.add("none");
+      document.querySelector("#prizeBar").classList.add("none");
+      document.querySelector("#prizeMess").classList.add("none");
       transform(targets.table, 2000);
       break;
     default:
       btns.enter.classList.add("none");
       btns.lotteryBar.classList.remove("none");
+      document.querySelector("#prizeBar").classList.remove("none");
+      document.querySelector("#prizeMess").classList.remove("none");
       transform(targets.sphere, 2000);
       break;
   }
