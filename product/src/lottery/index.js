@@ -55,6 +55,7 @@ let selectedCardIndex = [],
   currentPrize,
   // 正在抽奖
   isLotting = false,
+  isNexting = false,
   currentLuckys = [];
 
 initAll();
@@ -85,7 +86,7 @@ function initAll() {
         if (
           data.luckyData[prizeIndex] &&
           data.luckyData[prizeIndex].length >=
-            basicData.prizes[prizeIndex].count
+          basicData.prizes[prizeIndex].count
         ) {
           continue;
         }
@@ -202,6 +203,10 @@ function setLotteryStatus(status = false) {
   isLotting = status;
 }
 
+function setNextStatus(status = false) {
+  isNexting = status;
+}
+
 /**
  * 事件绑定
  */
@@ -212,7 +217,7 @@ function bindEvent() {
     if (isLotting) {
       if (e.target.id === "lottery") {
         rotateObj.stop();
-        btns.lottery.innerHTML = "开始抽奖";
+        btns.lottery.innerHTML = "开始转动";
       } else {
         addQipao("正在抽奖，抽慢一点点～～");
       }
@@ -259,10 +264,6 @@ function bindEvent() {
       // 抽奖
       case "lottery":
         setLotteryStatus(true);
-        // 每次抽奖前先保存上一次的抽奖数据
-        saveData();
-        //更新剩余抽奖数目的数据显示
-        changePrize();
         resetCard().then(res => {
           // 抽奖
           lottery();
@@ -284,6 +285,22 @@ function bindEvent() {
           // 抽奖
           lottery();
         });
+        break;
+      // 进入下一轮抽奖
+      case "next":
+        if (!isNexting) {
+          setNextStatus(true);
+          // 先保存上一次的抽奖数据
+          saveData().then(res => {
+            resetCard().then(res => {
+              let c = basicData.luckyUsers[currentPrize.type]
+              setPrizeData(currentPrizeIndex, c ? c.length : 0, true);
+              currentLuckys = [];
+              readyToLottery();
+              setNextStatus(false);
+            });
+          });
+        };
         break;
       // 导出抽奖结果
       case "save":
@@ -345,11 +362,13 @@ function createCard(user, isBold, id, showTable) {
       "rgba(0,127,127," + (Math.random() * 0.7 + 0.25) + ")";
   }
   //添加公司标识
-  element.appendChild(createElement("company", COMPANY));
+  // element.appendChild(createElement("company", COMPANY));
 
   element.appendChild(createElement("name", user[1]));
 
-  element.appendChild(createElement("details", user[0] + "<br/>" + user[2]));
+  element.appendChild(createElement("avatar", `<img src="../img/${user[3]}">`));
+
+  // element.appendChild(createElement("details", user[0] + "<br/>" + user[2]));
   return element;
 }
 
@@ -607,16 +626,22 @@ function resetCard(duration = 500) {
   });
 }
 
+function readyToLottery() {
+  btns.lottery.innerHTML = "开始转动";
+  btns.lottery.id = "lottery";
+}
+
 /**
  * 抽奖
  */
 function lottery() {
   // if (isLotting) {
   //   rotateObj.stop();
-  //   btns.lottery.innerHTML = "开始抽奖";
+  //   btns.lottery.innerHTML = "开始转动";
   //   return;
   // }
-  btns.lottery.innerHTML = "结束抽奖";
+  btns.lottery.innerHTML = "停!";
+  btns.lottery.id = "lottery";
   rotateBall().then(() => {
     // 将之前的记录置空
     currentLuckys = [];
@@ -652,6 +677,10 @@ function lottery() {
 
     // console.log(currentLuckys);
     selectCard();
+    btns.lottery.innerHTML = "下一轮";
+    btns.lottery.id = "next";
+    //更新剩余抽奖数目的数据显示
+    changePrize();
   });
 }
 
@@ -707,9 +736,7 @@ function random(num) {
 function changeCard(cardIndex, user) {
   let card = threeDCards[cardIndex].element;
 
-  card.innerHTML = `<div class="company">${COMPANY}</div><div class="name">${
-    user[1]
-  }</div><div class="details">${user[0] || ""}<br/>${user[2] || "PSST"}</div>`;
+  card.innerHTML = `<div class="name">${user[1]}</div><div class="avatar"><img src="../img/${user[3]}"></div>`;
 }
 
 /**

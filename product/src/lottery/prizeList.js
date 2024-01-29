@@ -156,39 +156,40 @@ function setPrizes(pri) {
 function showPrizeList(currentPrizeIndex) {
   let currentPrize = prizes[currentPrizeIndex];
   if (currentPrize.type === defaultType) {
-    currentPrize.count === "不限制";
+    currentPrize.count === "自由模式";
   }
-  let htmlCode = `<div class="prize-mess">正在抽取<label id="prizeType" class="prize-shine">${currentPrize.text}</label><label id="prizeText" class="prize-shine">${currentPrize.title}</label>，剩余<label id="prizeLeft" class="prize-shine">${currentPrize.count}</label>个</div><ul class="prize-list">`;
+  let messCode = `<div class="prize-mess">正在抽取<label id="prizeType" class="prize-shine">[${currentPrize.text}]</label><label id="prizeText" class="prize-shine">${currentPrize.title}</label></div>`;
+  document.querySelector("#prizeMess").innerHTML = messCode;
+  let htmlCode = `<ul class="prize-list">`;
+  let itemLook = "";
   prizes.forEach(item => {
     if (item.type === defaultType) {
       return true;
+    } else if (item.type === currentPrize.type) {
+      itemLook = "shine";
+    } else if (item.type > currentPrize.type) {
+      itemLook = "";
+    } else {
+      itemLook = "hidden";
     }
-    htmlCode += `<li id="prize-item-${item.type}" class="prize-item ${
-      item.type == currentPrize.type ? "shine" : ""
-    }">
-                        <span></span><span></span><span></span><span></span>
-                        <div class="prize-img">
-                            <img src="${item.img}" alt="${item.title}">
-                        </div>
-                        <div class="prize-text">
-                            <h5 class="prize-title">${item.text} ${
-      item.title
-    }</h5>
-                            <div class="prize-count">
-                                <div class="progress">
-                                    <div id="prize-bar-${
-                                      item.type
-                                    }" class="progress-bar progress-bar-danger progress-bar-striped active" style="width: 100%;">
-                                    </div>
-                                </div>
-                                <div id="prize-count-${
-                                  item.type
-                                }" class="prize-count-left">
-                                    ${item.count + "/" + item.count}
-                                </div>
-                            </div>
-                        </div>
-                    </li>`;
+    htmlCode += `<li id="prize-item-${item.type}" class="prize-item ${itemLook}">
+                      <span></span><span></span><span></span><span></span>
+                      <div class="prize-img">
+                          <img src="${item.img}" alt="${item.title}">
+                      </div>
+                      <div class="prize-text">
+                          <h5 class="prize-title">[${item.text}] ${item.title}</h5>
+                          <div class="prize-count">
+                              <div class="progress">
+                                  <div id="prize-bar-${item.type}" class="progress-bar progress-bar-danger progress-bar-striped active" style="width: 100%;">
+                                  </div>
+                              </div>
+                              <div id="prize-count-${item.type}" class="prize-count-left">
+                                  ${item.count + "/" + item.count}
+                              </div>
+                          </div>
+                      </div>
+                  </li>`;
   });
   htmlCode += `</ul>`;
 
@@ -239,17 +240,18 @@ let setPrizeData = (function () {
         lastBox = document.querySelector(`#prize-item-${lastPrize.type}`);
       lastBox.classList.remove("shine");
       lastBox.classList.add("done");
+      elements.box && elements.box.classList.remove("hidden");
       elements.box && elements.box.classList.add("shine");
-      prizeElement.prizeType.textContent = currentPrize.text;
+      prizeElement.prizeType.textContent = "[" + currentPrize.text + "]";
       prizeElement.prizeText.textContent = currentPrize.title;
 
       lasetPrizeIndex = currentPrizeIndex;
     }
 
     if (currentPrizeIndex === 0) {
-      prizeElement.prizeType.textContent = "特别奖";
-      prizeElement.prizeText.textContent = " ";
-      prizeElement.prizeLeft.textContent = "不限制";
+      prizeElement.prizeType.textContent = "自由模式";
+      prizeElement.prizeText.textContent = currentPrize.title;
+      // prizeElement.prizeLeft.textContent = "自由模式";
       return;
     }
 
@@ -258,7 +260,7 @@ let setPrizeData = (function () {
     let percent = (count / totalCount).toFixed(2);
     elements.bar && (elements.bar.style.width = percent * 100 + "%");
     elements.text && (elements.text.textContent = count + "/" + totalCount);
-    prizeElement.prizeLeft.textContent = count;
+    // prizeElement.prizeLeft.textContent = count;
   };
 })();
 

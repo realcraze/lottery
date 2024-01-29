@@ -16,7 +16,7 @@
 
   var c = canvas.getContext("2d");
 
-  var numStars = 800;
+  var numStars = 1800;
   var radius = "0." + Math.floor(Math.random() * 9) + 1;
   var focalLength = canvas.width * 2;
   var warp = 0;
@@ -76,8 +76,30 @@
       initializeStars();
     }
     if (warp == 0) {
+      // var img = new Image();
+      // img.onload = function () {
+      //   //draw a box over the top
+      //   c.fillStyle = "rgba(0,10,20,1)";
+      //   c.fillRect(0, 0, canvas.width, canvas.height);
+      //   //draw background image
+      //   // console.log(img.width, img.height);
+      //   // console.log(canvas.width, canvas.height);
+      //   // console.log(window.innerWidth, window.innerHeight);
+      //   c.drawImage(img, (window.innerWidth-400)/2, (canvas.height-400)/2, (window.innerWidth+400)/2, (canvas.height+400)/2);
+      // };
+      // img.src = '../img/bbc.png';
+      // c.drawImage(img, 0, 0, canvas.width, canvas.height);
       c.fillStyle = "rgba(0,10,20,1)";
       c.fillRect(0, 0, canvas.width, canvas.height);
+      // var URL = window.webkitURL || window.URL;
+      // var url = URL.createObjectURL("../img/ipad.jpg");
+      // var img = new Image();
+      // img.src = url;
+      // img.onload = function () {
+      //   img_width = img.width;
+      //   img_height = img.height;
+      //   context.drawImage(img, 0, 0, img_width, img_height);
+      // }
     }
     c.fillStyle = "rgba(209, 255, 255, " + radius + ")";
     for (i = 0; i < numStars; i++) {

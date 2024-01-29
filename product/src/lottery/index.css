@@ -70,7 +70,7 @@ a {
   border: 1px solid rgba(127, 255, 255, 0.75);
 }
 
-.element .company {
+/* .element .company {
   position: absolute;
   top: 1.2vh;
   right: 0;
@@ -97,6 +97,28 @@ a {
   right: 0;
   font-size: 1.6vh;
   color: rgba(127, 255, 255, 0.75);
+} */
+
+.element .name {
+  position: absolute;
+  top: 13vh;
+  left: 0;
+  right: 0;
+  font-size: 2vh;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.75);
+  text-shadow: 0 0 1vh rgba(0, 255, 255, 0.95);
+}
+
+.element .avatar img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
+  height: auto;
+  /* border: 1px solid #ddd;
+  border-radius: 4px; */
+  padding: 10px;
 }
 
 button {
@@ -180,14 +202,14 @@ button:active {
 }
 
 .prize-list {
-  margin: 0;
+  margin: 1vh 5vh;
   padding: 0;
   list-style: none;
 }
 
 .prize-item {
   padding: 9px;
-  margin: 6px 0;
+  margin: 3px 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -196,8 +218,8 @@ button:active {
   background-color: rgba(0, 127, 127, 0.37);
   border: 1px solid rgba(127, 255, 255, 0.25);
   color: rgba(127, 255, 255, 0.75);
-  width: 30vh;
-  height: 10vh;
+  width: 40vh;
+  height: 9vh;
   box-sizing: border-box;
   transition: transform 1s ease-in;
 }
@@ -213,8 +235,8 @@ button:active {
 }
 
 .prize-img img {
-  width: 90%;
-  height: 90%;
+  width: 100%;
+  height: 100%;
   position: relative;
   top: 50%;
   left: 50%;
@@ -340,14 +362,6 @@ button:active {
   transform: translateY(-50%);
 }
 
-.shine {
-  box-shadow: 0 0 15px 0 rgba(0, 255, 255, 0.5);
-  transform: scale(1.2);
-  transform-origin: left center;
-  position: relative;
-  overflow: hidden;
-}
-
 .done {
   position: relative;
 }
@@ -363,6 +377,34 @@ button:active {
   cursor: not-allowed;
 }
 
+.hidden {
+  box-shadow: 0 0 15px 0 rgba(0, 255, 255, 0.5);
+  transform-origin: left center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hidden.prize-item {
+  color: transparent;
+  text-shadow: 0 0 10px rgba(127, 255, 255, 0.75);
+}
+
+.hidden.prize-item .prize-img img {
+  filter: blur(10px);
+}
+
+.hidden span {
+  color: transparent;
+  text-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+.shine {
+  box-shadow: 0 0 15px 0 rgba(0, 255, 255, 0.5);
+  transform: scale(1.2);
+  transform-origin: left center;
+  position: relative;
+  overflow: hidden;
+}
 
 .shine span {
   position: absolute;
@@ -462,7 +504,12 @@ button:active {
   color: #fff;
   line-height: 5vh;
   font-size: 1.6vh;
-  margin: 2.4vh 0;
+  position: absolute;
+  top: 4vh;
+  width: 100%;
+  text-align: center;
+  z-index: 4;
+  margin-left: 15vh;
 }
 
 .prize-shine {
@@ -470,7 +517,7 @@ button:active {
   font-weight: bold;
   color: #db5c58;
   vertical-align: middle;
-  padding: 0 6px;
+  padding: 0 2px;
 }
 
 .qipao-container {
@@ -547,6 +594,11 @@ button:active {
   width: 200px;
   text-align: center;
   display: block;
+}
+
+.normal-btn {
+  width: 30vh;
+  margin: 20px
 }
 
 #lottery {
