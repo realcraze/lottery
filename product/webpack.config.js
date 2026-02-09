@@ -64,12 +64,8 @@ module.exports = {
         to: "./css"
       },
       {
-        from: `./data/${year}/music`,
-        to: "./music"
-      },
-      {
-        from: `./data/${year}/images`,
-        to: "./images"
+        from: `./data/${year}`,
+        to: `./data/${year}`
       },
       {
         from: "./src/lib",
