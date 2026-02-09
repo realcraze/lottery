@@ -11,6 +11,13 @@
   </head>
 
   <body>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const year = "<%= year %>";
+        const musicElement = document.getElementById('music');
+        musicElement.src = `../data/${year}/music/music.mp3`;
+      });
+    </script>
     <script src="./lib/three.min.js"></script>
     <script src="./lib/tween.min.js"></script>
     <script src="./lib/TrackballControls.js"></script>
@@ -22,7 +29,7 @@
     </div>
 
     <div class="music">
-      <audio id="music" src="./data/music.mp3" class="music-item" loop></audio>
+      <audio id="music" class="music-item" loop></audio>
       <div id="musicBox" class="music-box" title="播放/暂停背景音乐">Music</div>
     </div>
 

@@ -58,6 +58,8 @@ let selectedCardIndex = [],
   isNexting = false,
   currentLuckys = [];
 
+let year = new Date().getFullYear() + "";
+
 initAll();
 
 /**
@@ -69,7 +71,8 @@ function initAll() {
     success(data) {
       // 获取基础数据
       prizes = data.cfgData.prizes;
-      EACH_COUNT = data.cfgData.EACH_COUNT;
+      // list of count in each prize
+      EACH_COUNT = prizes.map(item => item.count);
       COMPANY = data.cfgData.COMPANY;
       HIGHLIGHT_CELL = createHighlight();
       basicData.prizes = prizes;
@@ -356,6 +359,7 @@ function createElement(css, text) {
 function createCard(user, isBold, id, showTable) {
   var element = createElement();
   element.id = "card-" + id;
+  element.user = user;
 
   if (isBold) {
     element.className = "element lightitem";
@@ -372,7 +376,7 @@ function createCard(user, isBold, id, showTable) {
 
   element.appendChild(createElement("name", user[1]));
 
-  element.appendChild(createElement("avatar", `<img src="../img/${user[3]}">`));
+  element.appendChild(createElement("avatar", `<img src="../data/${year}/images/${user[3]}">`));
 
   // element.appendChild(createElement("details", user[0] + "<br/>" + user[2]));
   return element;
@@ -741,8 +745,7 @@ function random(num) {
  */
 function changeCard(cardIndex, user) {
   let card = threeDCards[cardIndex].element;
-
-  card.innerHTML = `<div class="name">${user[1]}</div><div class="avatar"><img src="../img/${user[3]}"></div>`;
+  card.innerHTML = `<div class="name">${user[1]}</div><div class="avatar"><img src="../data/${year}/images/${user[3]}"></div>`;
 }
 
 /**
@@ -758,7 +761,7 @@ function shine(cardIndex, color) {
  * 随机切换背景和人员信息
  */
 function shineCard() {
-  let maxCard = 10,
+  let maxCard = 15,
     maxUser;
   let shineCard = 10 + random(maxCard);
 
@@ -773,6 +776,11 @@ function shineCard() {
         cardIndex = random(TOTAL_CARDS);
       // 当前显示的已抽中名单不进行随机切换
       if (selectedCardIndex.includes(cardIndex)) {
+        continue;
+      }
+      // 高亮卡片不切换
+      let card = threeDCards[cardIndex].element;
+      if (card.classList.contains("highlight")) {
         continue;
       }
       shine(cardIndex);
@@ -837,7 +845,6 @@ function reset() {
 }
 
 function createHighlight() {
-  let year = new Date().getFullYear() + "";
   let step = 4,
     xoffset = 1,
     yoffset = 1,

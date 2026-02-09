@@ -23,7 +23,8 @@ let app = express(),
   luckyData = {},
   errorData = [],
   defaultType = cfg.prizes[0]["type"],
-  defaultPage = `default data`;
+  defaultPage = `default data`,
+  year = new Date().getFullYear() + "";
 
 //这里指定参数使用 json 格式
 app.use(
@@ -144,12 +145,13 @@ router.post("/export", (req, res, next) => {
     outData = outData.concat(luckyData[item.type] || []);
   });
 
-  writeXML(outData, "/抽奖结果.xlsx")
+  fileName = `抽奖结果_${year}.xlsx`;
+  writeXML(outData, fileName)
     .then(dt => {
-      // res.download('/抽奖结果.xlsx');
+      // res.download(fileName);
       res.status(200).json({
         type: "success",
-        url: "抽奖结果.xlsx"
+        url: fileName
       });
       log(`导出数据成功！`);
     })
@@ -207,8 +209,8 @@ function loadData() {
   console.log("加载EXCEL数据文件");
   let cfgData = {};
 
-  // curData.users = loadXML(path.join(cwd, "data/users.xlsx"));
-  curData.users = loadXML(path.join(dataBath, "data/users.xlsx"));
+  // curData.users = loadXML(path.join(cwd, `../product/data/${year}/settings/users.xlsx`));
+  curData.users = loadXML(path.join(dataBath, `../product/data/${year}/settings/users.xlsx`));
   // 重新洗牌
   shuffle(curData.users);
 

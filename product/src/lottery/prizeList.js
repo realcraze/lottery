@@ -1,6 +1,8 @@
 const MAX_TOP = 300,
   MAX_WIDTH = document.body.clientWidth;
 
+let year = new Date().getFullYear() + "";
+
 let defaultType = 0;
 
 let prizes;
@@ -175,7 +177,7 @@ function showPrizeList(currentPrizeIndex) {
     htmlCode += `<li id="prize-item-${item.type}" class="prize-item ${itemLook}">
                       <span></span><span></span><span></span><span></span>
                       <div class="prize-img">
-                          <img src="${item.img}" alt="${item.title}">
+                          <img src="../data/${year}/images/prizes/${item.img}" alt="${item.title}">
                       </div>
                       <div class="prize-text">
                           <h5 class="prize-title">[${item.text}] ${item.title}</h5>

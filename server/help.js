@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const xlsx = require("node-xlsx").default;
 let cwd = path.join(__dirname, "cache");
+let year = new Date().getFullYear() + "";
 
 if (!fs.existsSync(cwd)) {
   fs.mkdirSync(cwd);
@@ -62,7 +63,7 @@ function loadXML(xmlPath) {
 function writeXML(data, name) {
   let buffer = xlsx.build([
     {
-      name: "抽奖结果",
+      name: name,
       data: data
     }
   ]);

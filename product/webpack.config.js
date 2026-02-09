@@ -4,6 +4,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const path = require("path");
 
+let year = new Date().getFullYear() + "";
+
 module.exports = {
   entry: path.join(__dirname, "/src/lottery/index.js"),
   output: {
@@ -51,7 +53,10 @@ module.exports = {
         collapseWhitespace: true
       },
       hash: true,
-      inject: true
+      inject: true,
+      templateParameters: {
+        year: year
+      }
     }),
     new CopyWebpackPlugin([
       {
@@ -59,12 +64,12 @@ module.exports = {
         to: "./css"
       },
       {
-        from: "./src/data",
-        to: "./data"
+        from: `./data/${year}/music`,
+        to: "./music"
       },
       {
-        from: "./src/img",
-        to: "./img"
+        from: `./data/${year}/images`,
+        to: "./images"
       },
       {
         from: "./src/lib",

@@ -3,6 +3,9 @@
   window.requestAnimFrame = (function () {
     return window.requestAnimationFrame;
   })();
+
+  let year = new Date().getFullYear() + "";
+
   var canvas = document.getElementById("canvas");
 
   ~~(function setSize() {
@@ -87,7 +90,7 @@
         new_height = new_width * img.height / img.width;
         c.drawImage(img, window.innerWidth * (1 - w_perc * 1.1), window.innerHeight * h_perc, new_width, new_height);
       };
-      img.src = '../img/logo.png';
+      img.src = `../data/${year}/images/logo.png`;
     }
     c.fillStyle = "rgba(209, 255, 255, " + radius + ")";
     for (i = 0; i < numStars; i++) {
